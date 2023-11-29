@@ -78,8 +78,8 @@ public class BlueBackstage extends LinearOpMode {
         TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(25, 12, Math.toRadians(0)))
                 .back(8)
-                .turn(Math.toRadians(90))
-                .forward(25)
+                .turn(Math.toRadians(95))
+                .forward(26)
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);
@@ -126,8 +126,9 @@ public class BlueBackstage extends LinearOpMode {
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(8)
-                .turn(Math.toRadians(90))
-                .forward(40)
+                .turn(Math.toRadians(95))
+                .forward(39)
+                .strafeRight(2)
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);
