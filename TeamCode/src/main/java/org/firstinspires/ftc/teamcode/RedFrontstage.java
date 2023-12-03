@@ -77,7 +77,7 @@ public class RedFrontstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(25, 9, Math.toRadians(0)))
                 .back(7)
                 .strafeRight(10)
-                .forward(31)
+                .forward(33)
                 .turn(Math.toRadians(-92))
                 .forward(84)
                 .build();
@@ -86,7 +86,7 @@ public class RedFrontstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(7)
                 .strafeLeft(20)
-                .forward(25)
+                .forward(27)
                 .turn(Math.toRadians(-92))
                 .forward(109)
                 .build();
@@ -99,7 +99,7 @@ public class RedFrontstage extends LinearOpMode {
                 .strafeLeft(8)
                 .forward(20)
                 .back(6)
-                .strafeLeft(24)
+                .strafeLeft(26)
                 .forward(84)
                 .build();
         /*

@@ -127,7 +127,7 @@ public class BlueBackstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(8)
                 .turn(Math.toRadians(95))
-                .forward(39)
+                .forward(38)
                 .strafeRight(2)
                 .addTemporalMarker(() -> {
                     // arm up
