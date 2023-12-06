@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 //package org.openftc.i2cdrivers;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class KALALALENMOVE extends OpMode {
     //Motors
+    RevBlinkinLedDriver lights;
     private double MAXARMPOWER = 0.5;
     private double MAXSLIDEPOWER = 0.4;
 
@@ -57,6 +59,11 @@ public class KALALALENMOVE extends OpMode {
         Slides = hardwareMap.get(DcMotor.class, "SE");
 
         lancher = hardwareMap.get(Servo.class, "PEW");
+
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+
+
+
         //-------------------------------------------------------
 
         //set direction for motors not servos(servos do not need pos set)
@@ -94,6 +101,7 @@ public class KALALALENMOVE extends OpMode {
 
     @Override
     public void loop() {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
         // Set drive controls
         drive = gamepad1.left_stick_y;
@@ -127,7 +135,10 @@ public class KALALALENMOVE extends OpMode {
 
         // slides
         slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
-
+        if(Arm.getCurrentPosition() >= 0)
+        {
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        }
         if(gamepad1.right_bumper)
         {
 

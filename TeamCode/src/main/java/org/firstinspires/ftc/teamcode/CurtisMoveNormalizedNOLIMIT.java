@@ -47,7 +47,8 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
     @Override
     public void init() {
 
-        telemetry.addLine("INIT LOOP: WAITING FOR START >>>>>>>>>>");
+        //Telemetry
+        telemetry.addLine(">> Welcome :)");
         telemetry.update();
 
         // Initialize DcMotors
@@ -125,8 +126,21 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
             for (int i = 0; i < speeds.length; ++i) speeds[i] /= max;
         }
 
+
+
+
+        // arm
         armPower = gamepad2.dpad_up ? MAXARMPOWER : gamepad2.dpad_down ? -MAXARMPOWER : 0;
+
+
+
+
+
+        // slides
         slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
+
+
+        // Set motor powers to updated power
 
         if (gamepad1.right_bumper) {
             leftFrontDrive.setPower(speeds[0]/3);
