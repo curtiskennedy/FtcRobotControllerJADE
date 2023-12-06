@@ -132,7 +132,7 @@ public class RedBackstage extends LinearOpMode {
                 .back(8)
                 .turn(Math.toRadians(-95))
                 .forward(38)
-                .strafeLeft(4)
+                .strafeLeft(8)
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);
