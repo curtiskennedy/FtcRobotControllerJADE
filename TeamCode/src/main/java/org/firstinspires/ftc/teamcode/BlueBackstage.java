@@ -12,6 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 @Autonomous(name = "Blue Backstage")
 public class BlueBackstage extends LinearOpMode {
@@ -50,7 +51,9 @@ public class BlueBackstage extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(25, 12, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(25, 12, Math.toRadians(0)),
+                        SampleMecanumDrive.getVelocityConstraint(DriveConstants.MAX_VEL / 2, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL / 2))
                 .back(8)
                 .turn(Math.toRadians(95))
                 .forward(26)
