@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp
+@TeleOp (name="Driver-Controlled TeleOp 1 Player")
 //@I2cDeviceType()
 
 public class CurtisMoveNormalizedNOLIMITONEPLAYER extends OpMode {

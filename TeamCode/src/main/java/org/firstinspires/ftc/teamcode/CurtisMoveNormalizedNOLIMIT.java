@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 //import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp
+@TeleOp (name="Driver-Controlled TeleOp")
 //@I2cDeviceType()
 
 public class CurtisMoveNormalizedNOLIMIT extends OpMode {
