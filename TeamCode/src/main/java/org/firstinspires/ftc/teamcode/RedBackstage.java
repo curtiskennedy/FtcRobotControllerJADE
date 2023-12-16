@@ -26,7 +26,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @Autonomous(name = "RedBackstage")
 public class RedBackstage extends LinearOpMode {
 
@@ -181,12 +182,12 @@ public class RedBackstage extends LinearOpMode {
                 .back(4)
                 .strafeRight(14)
                 .turn(Math.toRadians(90))
-                .strafeRight(6)
-                .forward(18)
+                .strafeRight(9)
+                .forward(20)
                 .back(8)
                 .turn(Math.toRadians(190))
                 .forward(34)
-                .strafeLeft(6)
+                .strafeLeft(3)
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);

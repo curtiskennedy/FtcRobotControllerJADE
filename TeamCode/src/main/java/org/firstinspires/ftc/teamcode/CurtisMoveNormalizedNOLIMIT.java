@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 //package org.openftc.i2cdrivers;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,19 +12,14 @@ import com.qualcomm.robotcore.util.Range;
 //import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp
+@TeleOp (name="Driver-Controlled TeleOp")
 //@I2cDeviceType()
 
 public class CurtisMoveNormalizedNOLIMIT extends OpMode {
 
-    RevBlinkinLedDriver lights;
-
     //Motors
     private double MAXARMPOWER = 0.5;
     private double MAXSLIDEPOWER = 0.4;
-
-    final double TOUCHPAD_POWER_INCREMENT = 0.01;
-    double touchpadPowerIncrement = 0.0;
 
     private double HangPower = 1;
 
@@ -68,8 +62,6 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
         Slides = hardwareMap.get(DcMotor.class, "SE");
 
         lancher = hardwareMap.get(Servo.class, "PEW");
-
-        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
         //-------------------------------------------------------
 
         //set direction for motors not servos(servos do not need pos set)
@@ -98,8 +90,6 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
 
         Arm.setDirection(DcMotorSimple.Direction.REVERSE);
         Slides.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
     }
 
@@ -147,23 +137,7 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
 
 
         // slides
-        if (gamepad2.a) {
-            slidesPower = MAXSLIDEPOWER;
-            touchpadPowerIncrement = 0.0; // Reset increment if A is pressed
-        } else if (gamepad2.b) {
-            slidesPower = -MAXSLIDEPOWER;
-            touchpadPowerIncrement = 0.0; // Reset increment if B is pressed
-        } else if (gamepad2.touchpad) {
-            slidesPower += touchpadPowerIncrement;
-            touchpadPowerIncrement += TOUCHPAD_POWER_INCREMENT;
-
-            // Limit slidesPower to HangPower
-            slidesPower = Math.min(slidesPower, HangPower);
-        } else {
-            slidesPower = 0;
-            touchpadPowerIncrement = 0.0; // Reset increment if no button is pressed
-        }
-
+        slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
 
 
         // Set motor powers to updated power
@@ -200,8 +174,6 @@ public class CurtisMoveNormalizedNOLIMIT extends OpMode {
         telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
 
         telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
-
-        telemetry.addData("lights", lights);
     }
 
 
