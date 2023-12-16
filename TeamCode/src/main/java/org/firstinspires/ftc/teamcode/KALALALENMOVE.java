@@ -20,6 +20,8 @@ public class KALALALENMOVE extends OpMode {
 
     private double HangPower = 1;
 
+    public boolean down;
+
 //    public int arm = 0;
 //    public int arm1 = 0;
 //
@@ -43,6 +45,7 @@ public class KALALALENMOVE extends OpMode {
 
     @Override
     public void init() {
+
 
         //Telemetry
         telemetry.addLine(">> Welcome :)");
@@ -101,7 +104,18 @@ public class KALALALENMOVE extends OpMode {
 
     @Override
     public void loop() {
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+
+        ElapsedTime loopTimer = new ElapsedTime();
+        long targetLoopTime = 16; // 1000 milliseconds / 60 fps = 16.6667 ms
+
+
+        while (loopTimer.milliseconds() < targetLoopTime) {
+
+            int i;//Random fuction & math for it not to give a warning
+            i=1+1;
+        }
+
+        //lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
         // Set drive controls
         drive = gamepad1.left_stick_y;
@@ -133,18 +147,63 @@ public class KALALALENMOVE extends OpMode {
 
 
 
+
+
         // slides
         slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
-        if(Arm.getCurrentPosition() >= 0)
+        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10 )
         {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
-        if(gamepad1.right_bumper)
+        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down) {
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        }
+        if(Arm.getCurrentPosition() <= -50f)
         {
+            down = true;
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        }
+        else {
+            down = false;
+        }
+
+        if(gamepad2.left_stick_button)
+        {
+            if(Arm.getCurrentPosition() <= 759)
+            {
+                //First set lines
+                armPower = 759;
+
+
+            }
+
+            if(Slides.getCurrentPosition() >= -1300)
+            {
+
+                slidesPower = -1300;
+
+            }
 
         }
 
-        // Set motor powers to updated power
+        if(gamepad2.right_stick_button) {
+            if (Arm.getCurrentPosition() <= 857) {
+                //Second set lines
+                armPower = 857;
+
+
+            }
+
+            if (Slides.getCurrentPosition() >= -2129) {
+
+                slidesPower = -2129;
+
+            }
+        }
+
+
+
+            // Set motor powers to updated power
 
         if (gamepad1.right_bumper) {
             leftFrontDrive.setPower(speeds[0]/3);
@@ -177,6 +236,11 @@ public class KALALALENMOVE extends OpMode {
 
         telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
         telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
+
+
+
+
+
     }
 
 
