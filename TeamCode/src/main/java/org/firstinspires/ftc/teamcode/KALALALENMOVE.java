@@ -40,7 +40,7 @@ public class KALALALENMOVE extends OpMode {
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Arm, Slides = null;
 
     private double drive, strafe, turn, armPower, slidesPower = 0.0;
-    public boolean ktroller1, ktroller2;
+    public boolean ktroller1, ktroller2 = true;
 
     ElapsedTime runtime = new ElapsedTime();
     // don't change
