@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 @TeleOp
 //@I2cDeviceType()
 
@@ -21,6 +25,7 @@ public class KALALALENMOVE extends OpMode {
     private double HangPower = 1;
 
     public boolean down;
+    public boolean override;
 
 //    public int arm = 0;
 //    public int arm1 = 0;
@@ -35,6 +40,7 @@ public class KALALALENMOVE extends OpMode {
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Arm, Slides = null;
 
     private double drive, strafe, turn, armPower, slidesPower = 0.0;
+    public boolean ktroller1, ktroller2;
 
     ElapsedTime runtime = new ElapsedTime();
     // don't change
@@ -151,14 +157,17 @@ public class KALALALENMOVE extends OpMode {
 
         // slides
         slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
-        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10 )
+        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10 && !override)
         {
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+
+
         }
-        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down) {
+        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down && !override) {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
         }
-        if(Arm.getCurrentPosition() <= -50f)
+        if(Arm.getCurrentPosition() <= -50f && !override)
         {
             down = true;
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
@@ -236,7 +245,27 @@ public class KALALALENMOVE extends OpMode {
 
         telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
         telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
+        telemetry.addData("ktroller1", ktroller1);
+        if(!ktroller1)
+        {
+            override = true;
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
+        }
+        else{
+            override = false;
+        }
+        if(!ktroller2)
+        {
+            override = true;
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
+        }
+        else {
+            override = false;
+        }
 
+
+        ktroller1 = gamepad1 != null && gamepad1.id != -1;
+        ktroller2 = gamepad1 != null && gamepad1.id != -1;
 
 
 
