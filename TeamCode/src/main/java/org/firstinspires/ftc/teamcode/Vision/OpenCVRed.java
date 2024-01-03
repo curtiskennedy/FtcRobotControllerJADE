@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Sebastian Erives
+ * Copyright (c) 2021 Kallen, Curtis, Aaron
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -74,20 +74,25 @@ public class OpenCVRed extends OpenCvPipeline {
      * and therefore, reducing the possibility of getting a
      * memory leak and causing the app to crash due to an
      * "Out of Memory" error.
+     *
      */
     private Mat ycrcbMat       = new Mat();
     private Mat binaryMat      = new Mat();
     public Mat maskedInputMat = new Mat();
     public Mat croppedimage = new Mat();
 
+    public Mat croppedBinaryMat = new Mat();
+
+    public Mat cropMainMat = new Mat();
+
     Mat dest_matrix = new Mat();
     Mat stats_mat = new Mat();
     Mat cens_mat = new Mat();
     double x_pos = 0;
     double y_pos = 0;
-    int lineLeftX = 529;
+    int lineLeftX = 629;
 
-    int lineRightX = 1270;
+    int lineRightX = 1210;
 
     Point p1 = new Point(lineLeftX, 0);
     Point p2 = new Point(lineLeftX, 1079);
@@ -97,7 +102,8 @@ public class OpenCVRed extends OpenCvPipeline {
     Point p3 = new Point(lineRightX, 0);
     Point p4 = new Point(lineRightX, 1079);
 
-    Rect roi = new Rect(0,429, 1920, 651);
+    Rect roi = new Rect(0, 429, 1920, 650);
+
 
     private Telemetry telemetry = null;
 
@@ -168,6 +174,8 @@ public class OpenCVRed extends OpenCvPipeline {
          * 255 represents our pixels that are inside the bounds
          */
         Core.inRange(ycrcbMat, lower, upper, binaryMat);
+        croppedBinaryMat = binaryMat.submat(roi);
+
 
         /*
          * Release the reusable Mat so that old data doesn't
@@ -176,7 +184,7 @@ public class OpenCVRed extends OpenCvPipeline {
         maskedInputMat.release();
 
 
-        int output = Imgproc.connectedComponentsWithStats(binaryMat, dest_matrix, stats_mat, cens_mat);
+        int output = Imgproc.connectedComponentsWithStats(croppedBinaryMat, dest_matrix, stats_mat, cens_mat);
 
 
         double currentmax = 0;
@@ -246,8 +254,8 @@ public class OpenCVRed extends OpenCvPipeline {
         Imgproc.line(maskedInputMat, p1, p2, s1, 20);
         Imgproc.line(maskedInputMat, p3, p4, s1, 20);
 
-        croppedimage =  maskedInputMat.submat(roi);
-
+        //croppedimage =  maskedInputMat.submat(roi);
+        cropMainMat =  maskedInputMat.submat(roi);
 
         /*
          * The Mat returned from this method is the
@@ -259,8 +267,8 @@ public class OpenCVRed extends OpenCvPipeline {
          * the threshold range.
          */
 
-        return croppedimage;
-        // return  maskedInputMat;
+
+        return  cropMainMat;
     }
 
 
