@@ -101,6 +101,7 @@ public class KALALALENMOVE extends OpMode {
     @Override
     //Start function
     public void start() {
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
         //reset
         telemetry.clearAll();
 
@@ -115,11 +116,12 @@ public class KALALALENMOVE extends OpMode {
         long targetLoopTime = 16; // 1000 milliseconds / 60 fps = 16.6667 ms
 
 
-        while (loopTimer.milliseconds() < targetLoopTime) {
-
-            int i;//Random fuction & math for it not to give a warning
-            i=1+1;
+        try {
+            Thread.sleep(targetLoopTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
 
         //lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
@@ -157,14 +159,14 @@ public class KALALALENMOVE extends OpMode {
 
         // slides
         slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
-        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10 && !override)
+        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10)
         {
 
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
 
         }
-        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down && !override) {
+        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down) {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
         }
         if(Arm.getCurrentPosition() <= -50f && !override)
@@ -245,30 +247,27 @@ public class KALALALENMOVE extends OpMode {
 
         telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
         telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
-        telemetry.addData("ktroller1", ktroller1);
-        if(!ktroller1)
-        {
-            override = true;
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
-        }
-        else{
-            override = false;
-        }
-        if(!ktroller2)
-        {
-            override = true;
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
-        }
-        else {
-            override = false;
-        }
-
-
-        ktroller1 = gamepad1 != null && gamepad1.id != -1;
-        ktroller2 = gamepad1 != null && gamepad1.id != -1;
-
-
-
+//        telemetry.addData("ktroller1", ktroller1);
+//        if(!ktroller1)
+//        {
+//            override = true;
+//            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
+//        }
+//        else{
+//            override = false;
+//        }
+//        if(!ktroller2)
+//        {
+//            override = true;
+//            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
+//        }
+//        else {
+//            override = false;
+//        }
+//
+//
+//        ktroller1 = gamepad1 != null && gamepad1.id != -1;
+//        ktroller2 = gamepad1 != null && gamepad1.id != -1;
 
     }
 
