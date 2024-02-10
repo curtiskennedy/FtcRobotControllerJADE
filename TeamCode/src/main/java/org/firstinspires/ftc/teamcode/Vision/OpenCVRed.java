@@ -97,7 +97,7 @@ public class OpenCVRed extends OpenCvPipeline {
     Point p1 = new Point(lineLeftX, 0);
     Point p2 = new Point(lineLeftX, 1079);
 
-    Scalar s1 = new Scalar(0, 255, 0);
+    Scalar s1 = new Scalar(255, 0, 0);
 
     Point p3 = new Point(lineRightX, 0);
     Point p4 = new Point(lineRightX, 1079);

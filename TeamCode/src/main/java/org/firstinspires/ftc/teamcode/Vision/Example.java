@@ -34,9 +34,9 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 //@I2cDeviceType()
 //@TeleOp
-public class OpenCVBlue extends OpenCvPipeline {
+public class Example extends OpenCvPipeline {
 
-    private volatile String result = "start";
+    private final String result = "test-Not programmed.";
 
     /*
      * These are our variables that will be
@@ -76,15 +76,14 @@ public class OpenCVBlue extends OpenCvPipeline {
     private final Mat ycrcbMat = new Mat();
     private final Mat binaryMat = new Mat();
     public Mat maskedInputMat = new Mat();
-    public Mat croppedimage = new Mat();
+
 
     public Mat croppedBinaryMat = new Mat();
-
-    public Mat cropMainMat = new Mat();
-
     Mat dest_matrix = new Mat();
     Mat stats_mat = new Mat();
     Mat cens_mat = new Mat();
+
+    //lines :)
     double x_pos = 0;
     double y_pos = 0;
     int lineLeftX = 629;
@@ -93,79 +92,46 @@ public class OpenCVBlue extends OpenCvPipeline {
 
     Point p1 = new Point(lineLeftX, 0);
     Point p2 = new Point(lineLeftX, 1079);
-
     Scalar s1 = new Scalar(0, 255, 255);
-
     Point p3 = new Point(lineRightX, 0);
-    Point p4 = new Point(lineRightX, 1079);
+    Point p4 = new Point(lineRightX, 1079); // lines!
+
 
     Rect roi = new Rect(0, 429, 1920, 650);
 
 
     private Telemetry telemetry = null;
 
-    /**
-     * Enum to choose which color space to choose
-     * with the live variable tuner isntead of
-     * hardcoding it.
-     */
+
     enum ColorSpace {
-        /*
-         * Define our "conversion codes" in the enum
-         * so that we don't have to do a switch
-         * statement in the processFrame method.
-         */
+
         RGB(Imgproc.COLOR_RGBA2RGB),
         HSV(Imgproc.COLOR_RGB2HSV),
         YCrCb(Imgproc.COLOR_RGB2YCrCb),
         Lab(Imgproc.COLOR_RGB2Lab);
 
 
-        //store cvtCode in a public var
         public int cvtCode = 0;
 
-        //constructor to be used by enum declarations above
+
         ColorSpace(int cvtCode) {
             this.cvtCode = cvtCode;
         }
     }
 
-    public OpenCVBlue(Telemetry telemetry) {
+    public Example(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
-
 
     public String getResult() {
         return result;
     }
 
     public Mat processFrame(Mat input) {
-        /*
-         * Converts our input mat from RGB to
-         * specified color space by the enum.
-         * EOCV ALWAYS returns RGB mats, so you'd
-         * always convert from RGB to the color
-         * space you want to use.
-         *
-         * Takes our "input" mat as an input, and outputs
-         * to a separate Mat buffer "ycrcbMat"
-         */
+
         Imgproc.cvtColor(input, ycrcbMat, colorSpace.cvtCode);
 
-        /*
-         * This is where our thresholding actually happens.
-         * Takes our "ycrcbMat" as input and outputs a "binary"
-         * Mat to "binaryMat" of the same size as our input.
-         * "Discards" all the pixels outside the bounds specified
-         * by the scalars above (and modifiable with EOCV-Sim's
-         * live variable tuner.)
-         *
-         * Binary meaning that we have either a 0 or 255 value
-         * for every pixel.
-         *
-         * 0 represents our pixels that were outside the bounds
-         * 255 represents our pixels that are inside the bounds
-         */
+
         Core.inRange(ycrcbMat, lower, upper, binaryMat);
         croppedBinaryMat = binaryMat.submat(roi);
 
@@ -191,19 +157,11 @@ public class OpenCVBlue extends OpenCvPipeline {
                 bestmaxblob = i;
             }
         }
-
         x_pos = cens_mat.get(bestmaxblob, 0)[0];
         y_pos = cens_mat.get(bestmaxblob, 1)[0];
 
 
-        if (x_pos > 1270) {
-            result = "RIGHT";
 
-        } else if (x_pos < 529) {
-            result = "LEFT";
-        } else {
-            result = "MIDDLE";
-        }
 
 
 
@@ -224,7 +182,7 @@ public class OpenCVBlue extends OpenCvPipeline {
 
 
         telemetry.addData("place", result);
-        telemetry.addData("output", output);
+        telemetry.addData("Test Output", "Not programmed :( ");
         telemetry.addData("stats", stats_mat);
         telemetry.addData("stats", cens_mat);
         telemetry.addData("_________________________________________", "");
@@ -243,21 +201,7 @@ public class OpenCVBlue extends OpenCvPipeline {
         Imgproc.line(maskedInputMat, p1, p2, s1, 20);
         Imgproc.line(maskedInputMat, p3, p4, s1, 20);
 
-        //croppedimage =  maskedInputMat.submat(roi);
-        cropMainMat = maskedInputMat.submat(roi);
-
-        /*
-         * The Mat returned from this method is the
-         * one displayed on the viewport.
-         *
-         * To visualize our threshold, we'll return
-         * the "masked input mat" which shows the
-         * pixel from the input Mat that were inside
-         * the threshold range.
-         */
-
-
-        return cropMainMat;
+        return maskedInputMat;
     }
 
 

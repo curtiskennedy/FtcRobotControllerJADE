@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+
 
 @Autonomous(name = "Blue Backstage")
 public class BlueBackstage extends LinearOpMode {
@@ -94,7 +94,7 @@ public class BlueBackstage extends LinearOpMode {
                 .back(8)
                 .turn(Math.toRadians(95))
                 .forward(38)
-                .strafeRight(2)
+                .strafeRight(4)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -30,7 +30,7 @@ public class DriveConstants {
      * method is in use (e.g., tracking wheels).
      *
      * If using the built-in motor velocity PID, update MOTOR_VELO_PID with the tuned coefficients
-     * from DriveVelocityPIDTuner.
+     * from DriveVelocityPIDTuner.ඞ
      */
     public static final boolean RUN_USING_ENCODER = false;
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
@@ -46,7 +46,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 58.33 / 61.36; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 19.24; // in
+    public static double TRACK_WIDTH = 50; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -54,9 +54,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.017;
-    public static double kA = 0.005;
-    public static double kStatic = 0.01;
+    public static double kV = 0.0185;
+    public static double kA = 0.003;
+    public static double kStatic = 0.003;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -65,9 +65,9 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = MAX_RPM / 60 * GEAR_RATIO * WHEEL_RADIUS * 2 * 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679;
+    public static double MAX_VEL = MAX_RPM / 60 * GEAR_RATIO * WHEEL_RADIUS * 2 * 12.5663706144 * 2.8f;
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(196.828);
+    public static double MAX_ANG_VEL = 3.00247877;
     public static double MAX_ANG_ACCEL = Math.toRadians(60);
 
     /*

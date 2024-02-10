@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * is recommended that you use the FollowerPIDTuner opmode for further fine tuning.
  */
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-@Disabled
+
 @Config
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {

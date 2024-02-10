@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,24 +23,24 @@ public class KALALALENMOVE extends OpMode {
     private double MAXARMPOWER = 0.5;
     private double MAXSLIDEPOWER = 0.4;
 
+    private double FLIPPERPOWER = 0.01;
+
     private double HangPower = 1;
+
 
     public boolean down;
     public boolean override;
 
-//    public int arm = 0;
-//    public int arm1 = 0;
-//
-//    public float armmove;
-//    public int extend = 0;
 
-    public Servo lancher = null;
 
-//    public float extendmove;
+    public Servo lancher,leftFlipper, rightFlipper = null;
+
 
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Arm, Slides = null;
 
-    private double drive, strafe, turn, armPower, slidesPower = 0.0;
+    private double drive, strafe, turn, armPower, slidesPower, rightFlipperPOS, leftFlipperPOS = 0.0;
+
+
     public boolean ktroller1, ktroller2 = true;
 
     ElapsedTime runtime = new ElapsedTime();
@@ -71,6 +72,12 @@ public class KALALALENMOVE extends OpMode {
 
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
+
+        leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+        rightFlipper = hardwareMap.get(Servo.class,"RightC");
+
+        leftFlipper.setPosition(0.5f);
+        rightFlipper.setPosition(0.5f);
 
 
         //-------------------------------------------------------
@@ -105,174 +112,158 @@ public class KALALALENMOVE extends OpMode {
         //reset
         telemetry.clearAll();
 
-
         runtime.reset();
     }
 
     @Override
     public void loop() {
-
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
         ElapsedTime loopTimer = new ElapsedTime();
         long targetLoopTime = 16; // 1000 milliseconds / 60 fps = 16.6667 ms
 
-
-        try {
-            Thread.sleep(targetLoopTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        while (loopTimer.milliseconds() < targetLoopTime) {
 
 
-        //lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
-        // Set drive controls
-        drive = gamepad1.left_stick_y;
-        strafe = gamepad1.left_stick_x;
-        turn = gamepad1.right_stick_x;
+            // Set drive controls
+            drive = gamepad1.left_stick_y;
+            strafe = gamepad1.left_stick_x;
+            turn = gamepad1.right_stick_x;
 
-        // Set motor power
-        speeds[0] = -drive + turn + strafe;
-        speeds[1] = -drive - turn - strafe;
-        speeds[2] = -drive + turn - strafe;
-        speeds[3] = -drive - turn + strafe;
+            // Set motor power
+            speeds[0] = -drive + turn + strafe;
+            speeds[1] = -drive - turn - strafe;
+            speeds[2] = -drive + turn - strafe;
+            speeds[3] = -drive - turn + strafe;
 
-        max = Math.abs(speeds[0]);
-        for(int i = 1; i < speeds.length; ++i) {
-            if ( max < Math.abs(speeds[i]) ) max = Math.abs(speeds[i]);
-        }
+            max = Math.abs(speeds[0]);
+            for(int i = 1; i < speeds.length; ++i) {
+                if ( max < Math.abs(speeds[i]) ) max = Math.abs(speeds[i]);
+            }
 
-        if (max > 1) {
-            for (int i = 0; i < speeds.length; ++i) speeds[i] /= max;
-        }
+            if (max > 1) {
+                for (int i = 0; i < speeds.length; ++i) speeds[i] /= max;
+            }
 
 
 
 
-        // arm
-        armPower = gamepad2.dpad_up ? MAXARMPOWER : gamepad2.dpad_down ? -MAXARMPOWER : 0;
+            // arm
+            armPower = gamepad2.dpad_up ? MAXARMPOWER : gamepad2.dpad_down ? -MAXARMPOWER : 0;
 
 
+
+            rightFlipperPOS += (gamepad2.right_trigger >= 0.9)? FLIPPERPOWER : gamepad2.right_bumper? -FLIPPERPOWER : 0;
+
+            leftFlipperPOS += (gamepad2.left_trigger >= 0.9)? -FLIPPERPOWER : gamepad2.left_bumper? FLIPPERPOWER : 0;
 
 
 
 
 
-        // slides
-        slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
-        if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10)
-        {
+
+
+            // slides
+            slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
+            if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10)
+            {
 
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
 
-        }
-        else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down) {
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
-        }
-        if(Arm.getCurrentPosition() <= -50f && !override)
-        {
-            down = true;
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-        }
-        else {
-            down = false;
-        }
-
-        if(gamepad2.left_stick_button)
-        {
-            if(Arm.getCurrentPosition() <= 759)
+            }
+            else if(Arm.getCurrentPosition() <= 459 && Slides.getCurrentPosition() >= -1 && !down) {
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+            }
+            if(Arm.getCurrentPosition() <= -25f && !override)
             {
-                //First set lines
-                armPower = 759;
-
-
+                down = true;
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            }
+            else {
+                down = false;
             }
 
-            if(Slides.getCurrentPosition() >= -1300)
+            if(gamepad2.left_stick_button)
             {
-
-                slidesPower = -1300;
-
-            }
-
-        }
-
-        if(gamepad2.right_stick_button) {
-            if (Arm.getCurrentPosition() <= 857) {
-                //Second set lines
-                armPower = 857;
+                if(Arm.getCurrentPosition() <= 759)
+                {
+                    //First set lines
+                    armPower = 759;
 
 
-            }
+                }
 
-            if (Slides.getCurrentPosition() >= -2129) {
+                if(Slides.getCurrentPosition() >= -1300)
+                {
 
-                slidesPower = -2129;
+                    slidesPower = -1300;
+
+                }
 
             }
-        }
+
+            if(gamepad2.right_stick_button) {
+                if (Arm.getCurrentPosition() <= 857) {
+                    //Second set lines
+                    armPower = 857;
+
+
+                }
+
+                if (Slides.getCurrentPosition() >= -2129) {
+
+                    slidesPower = -2129;
+
+                }
+            }
 
 
 
             // Set motor powers to updated power
 
-        if (gamepad1.right_bumper) {
-            leftFrontDrive.setPower(speeds[0]/3);
-            rightFrontDrive.setPower(speeds[1]/3);
-            leftBackDrive.setPower(speeds[2]/3);
-            rightBackDrive.setPower(speeds[3]/3);
+            if (gamepad1.right_bumper) {
+                leftFrontDrive.setPower(speeds[0]/3);
+                rightFrontDrive.setPower(speeds[1]/3);
+                leftBackDrive.setPower(speeds[2]/3);
+                rightBackDrive.setPower(speeds[3]/3);
+            }
+            else {
+                leftFrontDrive.setPower(speeds[0]);
+                rightFrontDrive.setPower(speeds[1]);
+                leftBackDrive.setPower(speeds[2]);
+                rightBackDrive.setPower(speeds[3]);
+            }
+
+
+
+            if(gamepad1.share)
+            {
+                lancher.setPosition(1);
+            }
+
+            if(gamepad1.left_bumper)
+            {
+
+
+                lancher.setPosition(0);
+
+            }
+
+
+            Arm.setPower(armPower);
+            Slides.setPower(slidesPower);
+            rightFlipper.setPosition(rightFlipperPOS);
+            leftFlipper.setPosition(leftFlipperPOS);
         }
-        else {
-            leftFrontDrive.setPower(speeds[0]);
-            rightFrontDrive.setPower(speeds[1]);
-            leftBackDrive.setPower(speeds[2]);
-            rightBackDrive.setPower(speeds[3]);
-        }
 
 
-        if(gamepad1.share)
-        {
-            lancher.setPosition(1);
-        }
 
-        if(gamepad1.left_bumper)
-        {
-            lancher.setPosition(0);
-
-        }
-
-
-        Arm.setPower(armPower);
-        Slides.setPower(slidesPower);
-
-        telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
-        telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
-//        telemetry.addData("ktroller1", ktroller1);
-//        if(!ktroller1)
-//        {
-//            override = true;
-//            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
-//        }
-//        else{
-//            override = false;
-//        }
-//        if(!ktroller2)
-//        {
-//            override = true;
-//            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_LAVA_PALETTE);
-//        }
-//        else {
-//            override = false;
-//        }
 //
-//
-//        ktroller1 = gamepad1 != null && gamepad1.id != -1;
-//        ktroller2 = gamepad1 != null && gamepad1.id != -1;
+//        telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
+//        telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
 
     }
-
-
-
     @Override
     public void stop() {
 
@@ -283,5 +274,7 @@ public class KALALALENMOVE extends OpMode {
         rightBackDrive.setPower(0);
         Arm.setPower(0);
         Slides.setPower(0);
+//        leftFlipper.setPosition(0.5f);
+//        rightFlipper.setPosition(0.5f);
     }
 }

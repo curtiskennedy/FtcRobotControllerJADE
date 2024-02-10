@@ -9,11 +9,11 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 /*
  * This is a simple routine to test turning capabilities.
  */import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-@Disabled
+
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
-    public static double ANGLE = 90; // deg
+    public static double ANGLE = 188; // deg
 
     @Override
     public void runOpMode() throws InterruptedException {
