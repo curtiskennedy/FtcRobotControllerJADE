@@ -82,7 +82,7 @@ public class RedBackstage extends LinearOpMode {
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     // slides out
-                    Extend.setTargetPosition(1094);
+                    Extend.setTargetPosition(632);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
@@ -109,7 +109,7 @@ public class RedBackstage extends LinearOpMode {
                     // arm down
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
+                    Arm.setPower(ArmPower /2f);
                 })
                 .waitSeconds(1)
 
@@ -124,7 +124,7 @@ public class RedBackstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(8)
                 .turn(Math.toRadians(-95))
-                .forward(38)
+                .forward(39)
                 .strafeLeft(5)
                 .waitSeconds(.5)
                 .addTemporalMarker(() -> {
@@ -136,7 +136,7 @@ public class RedBackstage extends LinearOpMode {
                 .waitSeconds(1f)
                 .addTemporalMarker(() -> {
                     // slides out
-                    Extend.setTargetPosition(1294);
+                    Extend.setTargetPosition(1400);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
