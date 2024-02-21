@@ -69,8 +69,10 @@ public class RedBackstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(25, -12, Math.toRadians(0)))
                 .back(8)
                 .turn(Math.toRadians(-95))
-                .forward(26)
-                .strafeLeft(5)
+                .forward(27)
+
+                .strafeLeft(3)
+
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);
@@ -110,6 +112,10 @@ public class RedBackstage extends LinearOpMode {
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
+
+                .strafeLeft(-17)
+                .forward(12)
+
                 .build();
 
 
@@ -119,45 +125,40 @@ public class RedBackstage extends LinearOpMode {
                 .back(8)
                 .turn(Math.toRadians(-95))
                 .forward(38)
-                .strafeLeft(8)
+                .strafeLeft(5)
+                .waitSeconds(.5)
                 .addTemporalMarker(() -> {
                     // arm up
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .waitSeconds(1)
+                .waitSeconds(1f)
                 .addTemporalMarker(() -> {
                     // slides out
-                    Extend.setTargetPosition(1094);
+                    Extend.setTargetPosition(1294);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    // arm down
-                    Arm.setTargetPosition(590);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .waitSeconds(1)
-
-                .back(8)
-
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                    // slides in
-                    Extend.setTargetPosition(0);
-                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Extend.setPower(SlidePower);
-                })
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                    // arm down
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+
+
+                .waitSeconds(1)
+                .back(4)
+                .waitSeconds(1)
+                .strafeLeft(-25)
+                .forward(12)
+
                 .waitSeconds(1)
                 .build();
 
