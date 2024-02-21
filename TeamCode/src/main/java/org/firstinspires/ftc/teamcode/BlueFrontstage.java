@@ -87,9 +87,41 @@ public class BlueFrontstage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(7)
                 .strafeRight(20)
-                .forward(23)
+                .forward(26)
                 .turn(Math.toRadians(90))
-                .forward(109)
+                .forward(107)
+                .strafeLeft(24)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(700);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(1094);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(590);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .back(8)
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(0);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
                 .build();
         // Right
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
