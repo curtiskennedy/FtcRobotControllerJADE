@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVBlue;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -14,6 +11,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name = "Blue Backstage")
@@ -30,7 +29,7 @@ public class BlueBackstage extends LinearOpMode {
         Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Arm.setDirection(DcMotor.Direction.REVERSE);
 
-        Extend = hardwareMap.get(DcMotor.class, "SE");
+        Extend = hardwareMap.get(DcMotor.class,"SE");
         Extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Extend.setDirection(DcMotor.Direction.REVERSE);
@@ -53,10 +52,10 @@ public class BlueBackstage extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(24.6f, 13, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(25, 12, Math.toRadians(0)))
                 .back(8)
                 .turn(Math.toRadians(95))
-                .forward(27)
+                .forward(26)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -82,22 +81,21 @@ public class BlueBackstage extends LinearOpMode {
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
+                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
-                .strafeLeft(15)
-                .forward(15)
                 .build();
 
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(8)
                 .turn(Math.toRadians(95))
-                .forward(37.5f)
-                .strafeRight(4.5)
+                .forward(38)
+                .strafeRight(4)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -123,57 +121,61 @@ public class BlueBackstage extends LinearOpMode {
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
-
+                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-
-                .strafeLeft(25)
-                .forward(15)
+                .waitSeconds(1)
                 .build();
-
+//test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
-                .strafeLeft(10)
+                .forward(10)
                 .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
-                .waitSeconds(1)
-                .back(15)
-                .turn(Math.toRadians(143))
-                .strafeRight(16)
-                .forward(30)
-                .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(700);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                    Extend.setTargetPosition(1094);
-                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Extend.setPower(SlidePower);
-                })
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(590);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .waitSeconds(1)
-                .back(8)
-                .addTemporalMarker(() -> {
-                    Extend.setTargetPosition(0);
-                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Extend.setPower(SlidePower);
-                })
-                .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(0);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .strafeLeft(30)
-                .forward(15)
+                .splineTo(new Vector2d(27, -4), Math.toRadians(-45))
+//                .lineToLinearHeading(new Pose2d(24, 0, Math.toRadians(0)))
+//                .back(4)
+//                .strafeLeft(14)
+//                .turn(Math.toRadians(-90))
+//                .strafeLeft(6)
+//                .forward(18)
+//                .back(8)
+//                .turn(Math.toRadians(-190))
+//                .forward(34)
+//                .strafeRight(6)
+//                .addTemporalMarker(() -> {
+//                    Arm.setTargetPosition(700);
+//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    Arm.setPower(ArmPower);
+//                })
+//                .waitSeconds(1)
+//                .addTemporalMarker(() -> {
+//                    Extend.setTargetPosition(1094);
+//                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    Extend.setPower(SlidePower);
+//                })
+//                .waitSeconds(1)
+//                .addTemporalMarker(() -> {
+//                    Arm.setTargetPosition(590);
+//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    Arm.setPower(ArmPower);
+//                })
+//                .waitSeconds(1)
+//                .back(8)
+//                .waitSeconds(1)
+//                .addTemporalMarker(() -> {
+//                    Extend.setTargetPosition(0);
+//                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    Extend.setPower(SlidePower);
+//                })
+//                .waitSeconds(1)
+//                .addTemporalMarker(() -> {
+//                    Arm.setTargetPosition(0);
+//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    Arm.setPower(ArmPower);
+//                })
+//                .waitSeconds(1)
                 .build();
 
         waitForStart();
