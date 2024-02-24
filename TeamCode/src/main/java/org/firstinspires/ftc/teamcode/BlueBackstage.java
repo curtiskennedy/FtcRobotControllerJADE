@@ -133,51 +133,45 @@ public class BlueBackstage extends LinearOpMode {
                 .build();
 //test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
-                .forward(10)
+                .strafeLeft(12)
                 .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, -4), Math.toRadians(-45))
-//                .lineToLinearHeading(new Pose2d(24, 0, Math.toRadians(0)))
-//                .back(4)
-//                .strafeLeft(14)
-//                .turn(Math.toRadians(-90))
-//                .strafeLeft(6)
-//                .forward(18)
-//                .back(8)
-//                .turn(Math.toRadians(-190))
-//                .forward(34)
-//                .strafeRight(6)
-//                .addTemporalMarker(() -> {
-//                    Arm.setTargetPosition(700);
-//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    Arm.setPower(ArmPower);
-//                })
-//                .waitSeconds(1)
-//                .addTemporalMarker(() -> {
-//                    Extend.setTargetPosition(1094);
-//                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    Extend.setPower(SlidePower);
-//                })
-//                .waitSeconds(1)
-//                .addTemporalMarker(() -> {
-//                    Arm.setTargetPosition(590);
-//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    Arm.setPower(ArmPower);
-//                })
-//                .waitSeconds(1)
-//                .back(8)
-//                .waitSeconds(1)
-//                .addTemporalMarker(() -> {
-//                    Extend.setTargetPosition(0);
-//                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    Extend.setPower(SlidePower);
-//                })
-//                .waitSeconds(1)
-//                .addTemporalMarker(() -> {
-//                    Arm.setTargetPosition(0);
-//                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    Arm.setPower(ArmPower);
-//                })
-//                .waitSeconds(1)
+                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
+                .waitSeconds(1)
+                .back(15)
+                .turn(Math.toRadians(143))
+                .strafeRight(14)
+                .forward(33)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(700);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(1094);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(580);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .back(8)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(0);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .strafeLeft(30)
+                .forward(15)
                 .build();
 
         waitForStart();

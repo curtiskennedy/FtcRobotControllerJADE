@@ -71,8 +71,8 @@ public class KALALALENMOVE extends OpMode {
         leftFlipper = hardwareMap.get(Servo.class, "LeftC");
         rightFlipper = hardwareMap.get(Servo.class,"RightC");
 
-        leftFlipper.setPosition(0.5f);
-        rightFlipper.setPosition(0.5f);
+//        leftFlipper.setPosition(0.5f);
+//        rightFlipper.setPosition(0.5f);
 
 
         //-------------------------------------------------------
@@ -248,8 +248,8 @@ public class KALALALENMOVE extends OpMode {
 
             Arm.setPower(armPower);
             Slides.setPower(slidesPower);
-            rightFlipper.setPosition(rightFlipperPOS);
-            leftFlipper.setPosition(leftFlipperPOS);
+//            rightFlipper.setPosition(rightFlipperPOS);
+//            leftFlipper.setPosition(leftFlipperPOS);
         }
 
 
