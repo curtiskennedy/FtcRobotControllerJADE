@@ -19,6 +19,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 @Autonomous (name = "Blue Frontstage")
 public class BlueFrontstage extends LinearOpMode {
@@ -28,11 +29,15 @@ public class BlueFrontstage extends LinearOpMode {
     OpenCVBlue pipeline = new OpenCVBlue(telemetry);
     private DcMotor Arm, Extend = null;
 
+    RevBlinkinLedDriver lights;
+
     private double ArmPower = 0.5, SlidePower = 0.4;
+
 
     @Override
     public void runOpMode()
     {
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
         Arm = hardwareMap.get(DcMotor.class, "AE");
         Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -42,6 +47,7 @@ public class BlueFrontstage extends LinearOpMode {
         Extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Extend.setDirection(DcMotor.Direction.REVERSE);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_SHOT);
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -50,11 +56,13 @@ public class BlueFrontstage extends LinearOpMode {
         webcam.setPipeline(pipeline);
 
         webcam.setMillisecondsPermissionTimeout(5000); // Timeout for obtaining permission is configurable. Set before opening.
+
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
             }
 
@@ -86,11 +94,17 @@ public class BlueFrontstage extends LinearOpMode {
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(7)
-                .strafeRight(20)
-                .forward(26)
-                .turn(Math.toRadians(90))
-                .forward(107)
-                .strafeLeft(24)
+//                .strafeRight(15)
+//                .forward(30)
+                .turn(Math.toRadians(94.5))
+                .strafeRight(2) //new
+                .waitSeconds(5) //new
+                .addTemporalMarker(() -> {
+                    lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_SHOT);
+                })
+                .forward(90) //104
+//                .strafeLeft(25)
+                .strafeRight(4) // new
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -104,33 +118,64 @@ public class BlueFrontstage extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(590);
+                    Arm.setTargetPosition(550);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
                 .back(8)
-                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Extend.setTargetPosition(0);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
-                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+                .strafeRight(20) // new
+                .forward(10) //104
+
                 .build();
         // Right
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(25, -9, Math.toRadians(0)))
-                .back(7)
-                .strafeLeft(10)
-                .forward(31)
-                .turn(Math.toRadians(90))
-                .forward(84)
+                .lineToLinearHeading(new Pose2d(25, -12, Math.toRadians(0)))
+                .back(22)
+                .turn(Math.toRadians(93))
+                .forward(96.5)
+                .strafeRight(33) // new
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(700);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(1094);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(550);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .back(8)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(0);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .strafeRight(8) // new
+                .forward(10) //104
                 .build();
 
         /*
