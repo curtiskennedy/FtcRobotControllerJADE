@@ -1,25 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVBlue;
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 @Autonomous (name = "Blue Frontstage")
 public class BlueFrontstage extends LinearOpMode {
@@ -142,9 +136,15 @@ public class BlueFrontstage extends LinearOpMode {
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(25, -12, Math.toRadians(0)))
                 .back(22)
-                .turn(Math.toRadians(93))
-                .forward(96.5)
-                .strafeRight(33) // new
+                .turn(Math.toRadians(92))
+                .forward(65)
+                .waitSeconds(0.1)
+                .turn(Math.toRadians(-92))
+                .forward(31) // new
+                .waitSeconds(0.1)
+                .turn(Math.toRadians(92))
+                .forward(36)
+                .waitSeconds(0.1)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -163,7 +163,8 @@ public class BlueFrontstage extends LinearOpMode {
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
-                .back(8)
+                .back(6) // new
+
                 .addTemporalMarker(() -> {
                     Extend.setTargetPosition(0);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -174,8 +175,7 @@ public class BlueFrontstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeRight(8) // new
-                .forward(10) //104
+
                 .build();
 
         /*
