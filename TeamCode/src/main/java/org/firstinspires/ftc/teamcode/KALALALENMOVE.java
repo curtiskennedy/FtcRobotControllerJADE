@@ -22,19 +22,18 @@ public class KALALALENMOVE extends OpMode {
 
     private double HangPower = 1;
 
-
+    public Servo lancher, leftFlipper, rightFlipper = null;
+    float flipYorNL = 0;
     public boolean down;
     public boolean override;
-
-
-
-    public Servo lancher,leftFlipper, rightFlipper = null;
+    float flipYorNR = 0;
 
 
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Arm, Slides = null;
 
     private double drive, strafe, turn, armPower, slidesPower, rightFlipperPOS, leftFlipperPOS = 0.0;
-
+    boolean rightBumperPressed = false;
+    boolean leftBumperPressed = false;
 
     public boolean ktroller1, ktroller2 = true;
 
@@ -97,6 +96,9 @@ public class KALALALENMOVE extends OpMode {
 
         Arm.setDirection(DcMotorSimple.Direction.REVERSE);
         Slides.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFlipper.setPosition(0);
+        leftFlipper.setPosition(0);
+
 
     }
 
@@ -125,6 +127,7 @@ public class KALALALENMOVE extends OpMode {
             strafe = gamepad1.left_stick_x;
             turn = gamepad1.right_stick_x;
 
+
             // Set motor power
             speeds[0] = -drive + turn + strafe;
             speeds[1] = -drive - turn - strafe;
@@ -139,6 +142,7 @@ public class KALALALENMOVE extends OpMode {
             if (max > 1) {
                 for (int i = 0; i < speeds.length; ++i) speeds[i] /= max;
             }
+
 
 
 
@@ -214,16 +218,53 @@ public class KALALALENMOVE extends OpMode {
             }
 
 
+            if (gamepad2.left_bumper) {
+                if (!leftBumperPressed) {
+
+                    if (flipYorNL == 0) {
+                        leftFlipper.setPosition(0.8f);
+                        flipYorNL = 1;
+                    } else {
+                        leftFlipper.setPosition(-2f);
+                        flipYorNL = 0;
+                    }
+
+
+                    leftBumperPressed = true;
+                }
+            } else {
+
+                leftBumperPressed = false;
+            }
+
+            if (gamepad2.right_bumper) {
+                if (!rightBumperPressed) {
+
+                    if (flipYorNR == 0) {
+                        rightFlipper.setPosition(0.73f);
+                        flipYorNR = 1;
+                    } else {
+                        rightFlipper.setPosition(-2f);
+                        flipYorNR = 0;
+                    }
+
+                    // Set the flag to indicate the button is pressed
+                    rightBumperPressed = true;
+                }
+            } else {
+                // Reset the flag when the button is released
+                rightBumperPressed = false;
+            }
+
 
             // Set motor powers to updated power
 
             if (gamepad1.right_bumper) {
-                leftFrontDrive.setPower(speeds[0]/3);
-                rightFrontDrive.setPower(speeds[1]/3);
-                leftBackDrive.setPower(speeds[2]/3);
-                rightBackDrive.setPower(speeds[3]/3);
-            }
-            else {
+                leftFrontDrive.setPower(speeds[0] / 3);
+                rightFrontDrive.setPower(speeds[1] / 3);
+                leftBackDrive.setPower(speeds[2] / 3);
+                rightBackDrive.setPower(speeds[3] / 3);
+            } else {
                 leftFrontDrive.setPower(speeds[0]);
                 rightFrontDrive.setPower(speeds[1]);
                 leftBackDrive.setPower(speeds[2]);
@@ -253,9 +294,9 @@ public class KALALALENMOVE extends OpMode {
         }
 
 
-
 //
-//        telemetry.addData("Arm Encoder Ticks: ", Arm.getCurrentPosition());
+        telemetry.addData("Right: ", rightFlipper.getPosition());
+        telemetry.addData("Left: ", leftFlipper.getPosition());
 //        telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
 
     }
