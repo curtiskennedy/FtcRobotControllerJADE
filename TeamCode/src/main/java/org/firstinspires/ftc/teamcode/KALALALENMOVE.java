@@ -148,12 +148,12 @@ public class KALALALENMOVE extends OpMode {
 
 
 
-            if (gamepad1.circle && !spin){
+            if (gamepad1.left_stick_button && !spin) {
                 spinsec = runtime.seconds();
                 spin = true;
 
             }
-            if (runtime.seconds()-spinsec>0.8 && spin){
+            if (runtime.seconds() - spinsec > 0.8 && spin) {
                 spin = false;
             }
             if (spin){

@@ -163,14 +163,10 @@ public class RedBackstage extends LinearOpMode {
                 .build();
 //test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
-                .strafeLeft(12)
-                .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
-                .waitSeconds(1)
-                .back(15)
-                .turn(Math.toRadians(143))
-                .strafeRight(14)
-                .forward(33)
+                .lineToLinearHeading(new Pose2d(26, -14, Math.toRadians(0)))
+                .back(8)
+                .turn(Math.toRadians(-95))
+                .forward(27)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -184,23 +180,28 @@ public class RedBackstage extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(580);
+                    Arm.setTargetPosition(400);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+
                 .waitSeconds(1)
                 .back(8)
+                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Extend.setTargetPosition(0);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
+                .waitSeconds(1)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeLeft(30)
+
+                .waitSeconds(1)
+                .strafeRight(15)
                 .forward(15)
                 .build();
 
