@@ -136,7 +136,7 @@ public class BlueFrontstage extends LinearOpMode {
                 })
                 .forward(90) //104
 //                .strafeLeft(25)
-                .strafeRight(4) // new
+                .strafeRight(6) // new
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -166,8 +166,6 @@ public class BlueFrontstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeRight(20) // new
-                .forward(10) //104
 
                 .build();
         // Right
