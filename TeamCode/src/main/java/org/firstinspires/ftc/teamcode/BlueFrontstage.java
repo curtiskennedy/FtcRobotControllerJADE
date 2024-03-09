@@ -133,9 +133,9 @@ public class BlueFrontstage extends LinearOpMode {
                 .addTemporalMarker(() -> {
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_SHOT);
                 })
-                .forward(90) //104
+                .forward(89) //104
 //                .strafeLeft(25)
-                .strafeRight(6) // new
+                .strafeRight(7.5f) // new
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
