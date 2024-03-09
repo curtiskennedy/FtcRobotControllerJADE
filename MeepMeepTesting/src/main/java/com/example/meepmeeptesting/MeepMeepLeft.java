@@ -13,13 +13,38 @@ public class MeepMeepLeft {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
 
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(800), Math.toRadians(800), 10)
+                .setConstraints(100, 100, Math.toRadians(800), Math.toRadians(800), 10)
                 .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(12, 61, Math.toRadians(-90)))
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineTo(new Vector2d(36, -6), Math.toRadians(180))
+                                drive.trajectorySequenceBuilder(new Pose2d(0, 61, Math.toRadians(-90)))
+                                        .lineToLinearHeading(new Pose2d(22, 0, Math.toRadians(0)))
+                                        .back(4)
+                                        .strafeLeft(14)
+                                        .turn(Math.toRadians(-92))
+                                        .strafeLeft(8)
+                                        .forward(20)
+                                        .back(6)
+                                        .strafeLeft(26)
+                                        .forward(84)
                                         .build()
                                 );
+        RoadRunnerBotEntity Enemy = new DefaultBotBuilder(meepMeep)
+
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setColorScheme(myBot.getColorScheme())
+                .setConstraints(100, 100, Math.toRadians(800), Math.toRadians(800), 10)
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(0, 61, Math.toRadians(-90)))
+                                .lineToLinearHeading(new Pose2d(22, 0, Math.toRadians(0)))
+                                .back(4)
+                                .strafeLeft(14)
+                                .turn(Math.toRadians(-92))
+                                .strafeLeft(8)
+                                .forward(20)
+                                .back(6)
+                                .strafeLeft(26)
+                                .forward(84)
+                                .build()
+                );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
                 .setDarkMode(true)
