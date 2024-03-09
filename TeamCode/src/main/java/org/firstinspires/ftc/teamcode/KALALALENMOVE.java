@@ -41,6 +41,8 @@ public class KALALALENMOVE extends OpMode {
     // don't change
     double max;
     double[] speeds = new double[4];
+    private boolean spin= false;
+    private double spinsec =0;
 
 
 
@@ -68,7 +70,7 @@ public class KALALALENMOVE extends OpMode {
 
 
         leftFlipper = hardwareMap.get(Servo.class, "LeftC");
-        rightFlipper = hardwareMap.get(Servo.class,"RightC");
+        rightFlipper = hardwareMap.get(Servo.class, "RightC");
 
 //        leftFlipper.setPosition(0.5f);
 //        rightFlipper.setPosition(0.5f);
@@ -100,9 +102,8 @@ public class KALALALENMOVE extends OpMode {
         flipYorNL = 1;
         rightFlipper.setPosition(-1f);
         leftFlipper.setPosition(0.8f);
-
-
     }
+
 
     @Override
     //Start function
@@ -147,7 +148,20 @@ public class KALALALENMOVE extends OpMode {
 
 
 
+            if (gamepad1.circle && !spin){
+                spinsec = runtime.seconds();
+                spin = true;
 
+            }
+            if (runtime.seconds()-spinsec>0.8 && spin){
+                spin = false;
+            }
+            if (spin){
+                speeds [0] = -1;
+                speeds [1]  = -1;
+                speeds [2] = 1;
+                speeds [3] = 1;
+            }
 
             // arm
             armPower = gamepad2.dpad_up ? MAXARMPOWER : gamepad2.dpad_down ? -MAXARMPOWER : 0;
