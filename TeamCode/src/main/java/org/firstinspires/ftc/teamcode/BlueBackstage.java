@@ -89,7 +89,8 @@ public class BlueBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .waitSeconds(1)
+                .strafeLeft(16)
+                .forward(12)
                 .build();
 
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
@@ -129,13 +130,14 @@ public class BlueBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .waitSeconds(1)
+                .strafeLeft(24)
+                .forward(12)
                 .build();
 //test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
                 .strafeLeft(12)
                 .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
+                .splineTo(new Vector2d(27, -6), Math.toRadians(-47))
                 .waitSeconds(1)
                 .back(15)
                 .turn(Math.toRadians(143))

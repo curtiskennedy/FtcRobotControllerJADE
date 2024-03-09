@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -75,14 +76,12 @@ public class BlueFrontstage extends LinearOpMode {
 
         // Left
         TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(22, 0, Math.toRadians(0)))
-                .back(4)
-                .strafeRight(14)
-                .strafeRight(8)
-                .forward(20)
-                .back(6)
-                .strafeRight(24)
-                .forward(84)
+                .setTangent(Math.toRadians(0))
+                .splineTo(new Vector2d(27, 8), Math.toRadians(47))
+                .back(14.142135623730950488016887242097)
+                .turn(Math.toRadians(47))
+                .strafeLeft(16)
+                .forward(88)
                 .build();
         // Middle
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
