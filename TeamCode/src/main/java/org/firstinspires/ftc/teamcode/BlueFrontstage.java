@@ -80,8 +80,41 @@ public class BlueFrontstage extends LinearOpMode {
                 .splineTo(new Vector2d(27, 8), Math.toRadians(47))
                 .back(14.142135623730950488016887242097)
                 .turn(Math.toRadians(47))
-                .strafeLeft(16)
-                .forward(88)
+                .strafeLeft(14)
+                .forward(80)
+                .strafeRight(18)
+                .forward(10.5)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(800);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(1394);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(550);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .back(8)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(0);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .strafeLeft(21)
+                .forward(12)
                 .build();
         // Middle
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())

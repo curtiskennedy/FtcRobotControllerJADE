@@ -96,8 +96,10 @@ public class KALALALENMOVE extends OpMode {
 
         Arm.setDirection(DcMotorSimple.Direction.REVERSE);
         Slides.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightFlipper.setPosition(0);
-        leftFlipper.setPosition(0);
+        flipYorNR = 1;
+        flipYorNL = 1;
+        rightFlipper.setPosition(-1f);
+        leftFlipper.setPosition(0.8f);
 
 
     }
@@ -105,7 +107,7 @@ public class KALALALENMOVE extends OpMode {
     @Override
     //Start function
     public void start() {
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+
         //reset
         telemetry.clearAll();
 
@@ -163,7 +165,7 @@ public class KALALALENMOVE extends OpMode {
 
 
             // slides
-            slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower : 0;
+            slidesPower = gamepad2.a ? MAXSLIDEPOWER : gamepad2.b ? -MAXSLIDEPOWER : gamepad2.touchpad ? HangPower * 2 : 0;
             if(Arm.getCurrentPosition() >= 460 || Slides.getCurrentPosition() <= -10)
             {
 
