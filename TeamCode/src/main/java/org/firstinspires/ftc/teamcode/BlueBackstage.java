@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVBlue;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -23,6 +24,7 @@ public class BlueBackstage extends LinearOpMode {
     private DcMotor Arm, Extend = null;
     private double ArmPower = 0.5, SlidePower = 0.4;
     public Servo lancher, leftFlipper, rightFlipper = null;
+
 
     @Override
     public void runOpMode() {
@@ -45,8 +47,7 @@ public class BlueBackstage extends LinearOpMode {
             public void onOpened() {webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
                 leftFlipper = hardwareMap.get(Servo.class, "LeftC");
                 rightFlipper = hardwareMap.get(Servo.class,"RightC");
-                rightFlipper.setPosition(0);
-                leftFlipper.setPosition(0);
+
             }
 
             @Override
@@ -95,7 +96,10 @@ public class BlueBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+
                 .waitSeconds(1)
+                .strafeLeft(15)
+                .forward(15)
                 .build();
 
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
@@ -135,17 +139,20 @@ public class BlueBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+
                 .waitSeconds(1)
+                .strafeLeft(25)
+                .forward(15)
                 .build();
 //test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
                 .strafeLeft(12)
                 .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
+                .splineTo(new Vector2d(27, -4.2f), Math.toRadians(-47))
                 .waitSeconds(1)
                 .back(15)
                 .turn(Math.toRadians(143))
-                .strafeRight(14)
+                .strafeRight(18)
                 .forward(33)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
@@ -185,10 +192,17 @@ public class BlueBackstage extends LinearOpMode {
         String result = pipeline.getResult();
         webcam.stopStreaming();
         webcam.closeCameraDevice();
-
-        if (result == "LEFT") {drive.followTrajectorySequence(Left);}
-        if (result == "MIDDLE") {drive.followTrajectorySequence(Middle);}
-        if (result == "RIGHT") {drive.followTrajectorySequence(Right);}
+        leftFlipper.setPosition(2f);
+        rightFlipper.setPosition(-2f);
+        if (result == "LEFT") {
+            drive.followTrajectorySequence(Left);
+        }
+        if (result == "MIDDLE") {
+            drive.followTrajectorySequence(Middle);
+        }
+        if (result == "RIGHT") {
+            drive.followTrajectorySequence(Right);
+        }
 
         while (opModeIsActive()) {
             telemetry.update();

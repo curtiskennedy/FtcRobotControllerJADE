@@ -45,7 +45,8 @@ public class BlueFrontstage extends LinearOpMode {
         Extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Extend.setDirection(DcMotor.Direction.REVERSE);
         lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.CP1_SHOT);
-
+        leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+        rightFlipper = hardwareMap.get(Servo.class, "RightC");
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -54,6 +55,7 @@ public class BlueFrontstage extends LinearOpMode {
 
         webcam.setMillisecondsPermissionTimeout(5000); // Timeout for obtaining permission is configurable. Set before opening.
 
+
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -61,10 +63,7 @@ public class BlueFrontstage extends LinearOpMode {
             {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
-                leftFlipper = hardwareMap.get(Servo.class, "LeftC");
-                rightFlipper = hardwareMap.get(Servo.class,"RightC");
-                rightFlipper.setPosition(0);
-                leftFlipper.setPosition(0);
+
             }
 
             @Override
@@ -223,13 +222,24 @@ public class BlueFrontstage extends LinearOpMode {
         webcam.stopStreaming();
         webcam.closeCameraDevice();
 
-        if(result=="LEFT") {drive.followTrajectorySequence(Left);};
-        if(result=="MIDDLE") {drive.followTrajectorySequence(Middle);};
-        if(result=="RIGHT") {drive.followTrajectorySequence(Right);};
+        rightFlipper.setPosition(-2f);
+        leftFlipper.setPosition(2f);
+
+        if (result == "LEFT") {
+            drive.followTrajectorySequence(Left);
+        }
+        ;
+        if (result == "MIDDLE") {
+            drive.followTrajectorySequence(Middle);
+        }
+        ;
+        if (result == "RIGHT") {
+            drive.followTrajectorySequence(Right);
+        }
+        ;
 
 
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             telemetry.update();
             sleep(100);
         }

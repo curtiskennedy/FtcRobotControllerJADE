@@ -53,8 +53,7 @@ public class RedBackstage extends LinearOpMode {
                 webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
                 leftFlipper = hardwareMap.get(Servo.class, "LeftC");
                 rightFlipper = hardwareMap.get(Servo.class,"RightC");
-                rightFlipper.setPosition(0);
-                leftFlipper.setPosition(0);
+
             }
 
             @Override
@@ -69,118 +68,58 @@ public class RedBackstage extends LinearOpMode {
         telemetry.addLine("Waiting for start");
         telemetry.update();
 
+        telemetry.addLine("Waiting for start");
+        telemetry.update();
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        //Right
-        TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToLinearHeading(new Pose2d(25, -12, Math.toRadians(0)))
-                .back(8)
-                .turn(Math.toRadians(-95))
-                .forward(27)
-
-                .strafeLeft(3)
-
+        TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
+                .setTangent(Math.toRadians(0))
+                .splineTo(new Vector2d(27, 8.5), Math.toRadians(47))
+                .back(14.142135623730950488016887242097)
+                .turn(Math.toRadians(-132))
+                .forward(36)
                 .addTemporalMarker(() -> {
-                    // arm up
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    // slides out
-                    Extend.setTargetPosition(632);
+                    Extend.setTargetPosition(1094);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    // arm down
                     Arm.setTargetPosition(590);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
+
                 .waitSeconds(1)
-
                 .back(8)
-
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    // slides in
                     Extend.setTargetPosition(0);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    // arm down
                     Arm.setTargetPosition(0);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower /2f);
+                    Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
-
-                .strafeLeft(-17)
-                .forward(12)
-
                 .build();
 
-
-        //Middle
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(31, 0, Math.toRadians(0)))
                 .back(8)
-                .turn(Math.toRadians(-95))
-                .forward(39)
-                .strafeLeft(5)
-                .waitSeconds(.5)
-                .addTemporalMarker(() -> {
-                    // arm up
-                    Arm.setTargetPosition(700);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .waitSeconds(1f)
-                .addTemporalMarker(() -> {
-                    // slides out
-                    Extend.setTargetPosition(1400);
-                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Extend.setPower(SlidePower);
-                })
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(0);
-                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Arm.setPower(ArmPower);
-                })
-                .addTemporalMarker(() -> {
-                    Extend.setTargetPosition(0);
-                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    Extend.setPower(SlidePower);
-                })
-
-
-                .waitSeconds(1)
-                .back(4)
-                .waitSeconds(1)
-                .strafeLeft(-25)
-                .forward(12)
-
-                .waitSeconds(1)
-                .build();
-
-
-        //Left
-        TrajectorySequence Left = drive.trajectorySequenceBuilder(new Pose2d())
-                .strafeRight(20)
-                .setTangent(Math.toRadians(0))
-                .splineTo(new Vector2d(27, 4), Math.toRadians(47))
-                .waitSeconds(1)
-                .back(15)
-                .turn(Math.toRadians(-143))
-                .strafeLeft(16)
-                .forward(30)
+                .turn(Math.toRadians(95))
+                .forward(38)
+                .strafeRight(4)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -200,6 +139,49 @@ public class RedBackstage extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .back(8)
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(0);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(0);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .build();
+//test
+        TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
+                .strafeLeft(12)
+                .setTangent(Math.toRadians(0))
+                .splineTo(new Vector2d(27, -4), Math.toRadians(-47))
+                .waitSeconds(1)
+                .back(15)
+                .turn(Math.toRadians(143))
+                .strafeRight(14)
+                .forward(33)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(700);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Extend.setTargetPosition(1094);
+                    Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Extend.setPower(SlidePower);
+                })
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    Arm.setTargetPosition(580);
+                    Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    Arm.setPower(ArmPower);
+                })
+                .waitSeconds(1)
+                .back(8)
                 .addTemporalMarker(() -> {
                     Extend.setTargetPosition(0);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -210,7 +192,7 @@ public class RedBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeRight(30)
+                .strafeLeft(30)
                 .forward(15)
                 .build();
 
@@ -224,6 +206,9 @@ public class RedBackstage extends LinearOpMode {
         String result = pipeline.getResult();
         webcam.stopStreaming();
         webcam.closeCameraDevice();
+
+        rightFlipper.setPosition(-2);
+        leftFlipper.setPosition(2);
 
         if (result == "LEFT") {
             drive.followTrajectorySequence(Left);
