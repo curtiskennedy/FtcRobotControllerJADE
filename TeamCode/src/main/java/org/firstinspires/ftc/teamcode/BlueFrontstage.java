@@ -118,8 +118,8 @@ public class BlueFrontstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeLeft(21)
-                .forward(12)
+//                .strafeLeft(21)
+//                .forward(12)
                 .build();
         // Middle
         TrajectorySequence Middle = drive.trajectorySequenceBuilder(new Pose2d())
