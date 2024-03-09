@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVBlue;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -22,6 +22,7 @@ public class BlueBackstage extends LinearOpMode {
     OpenCVBlue pipeline = new OpenCVBlue(telemetry);
     private DcMotor Arm, Extend = null;
     private double ArmPower = 0.5, SlidePower = 0.4;
+    public Servo lancher, leftFlipper, rightFlipper = null;
 
     @Override
     public void runOpMode() {
@@ -41,7 +42,12 @@ public class BlueBackstage extends LinearOpMode {
         webcam.setMillisecondsPermissionTimeout(5000); // Timeout for obtaining permission is configurable. Set before opening.
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened() {webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);}
+            public void onOpened() {webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+                leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+                rightFlipper = hardwareMap.get(Servo.class,"RightC");
+                rightFlipper.setPosition(0);
+                leftFlipper.setPosition(0);
+            }
 
             @Override
             public void onError(int errorCode) {}

@@ -13,12 +13,15 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Servo;
+
 @Disabled
 @Autonomous (name = "Red Frontstage")
 public class RedFrontstage extends LinearOpMode {
     OpenCvWebcam webcam;
     OpenCVRed pipeline = new OpenCVRed(telemetry);
     private DcMotor Arm, Extend = null;
+    public Servo lancher, leftFlipper, rightFlipper = null;
 
     @Override
     public void runOpMode()
@@ -41,7 +44,13 @@ public class RedFrontstage extends LinearOpMode {
         {
             @Override
             public void onOpened()
-            {webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);}
+            {
+                webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+                leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+                rightFlipper = hardwareMap.get(Servo.class,"RightC");
+                rightFlipper.setPosition(0);
+                leftFlipper.setPosition(0);
+            }
 
             @Override
             public void onError(int errorCode) {telemetry.clearAll(); telemetry.addLine("Camera failed to open");}

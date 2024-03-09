@@ -6,6 +6,7 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVBlue;
@@ -27,6 +28,7 @@ public class BlueFrontstage extends LinearOpMode {
     RevBlinkinLedDriver lights;
 
     private double ArmPower = 0.5, SlidePower = 0.4;
+    public Servo lancher, leftFlipper, rightFlipper = null;
 
 
     @Override
@@ -59,6 +61,10 @@ public class BlueFrontstage extends LinearOpMode {
             {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+                leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+                rightFlipper = hardwareMap.get(Servo.class,"RightC");
+                rightFlipper.setPosition(0);
+                leftFlipper.setPosition(0);
             }
 
             @Override

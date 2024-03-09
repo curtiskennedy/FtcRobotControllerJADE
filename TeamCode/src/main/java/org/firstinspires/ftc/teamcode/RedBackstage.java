@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.OpenCVRed;
@@ -24,6 +25,8 @@ public class RedBackstage extends LinearOpMode {
     private DcMotor Arm, Extend = null;
 
     private double ArmPower = 0.5, SlidePower = 0.4;
+    public Servo lancher, leftFlipper, rightFlipper = null;
+
 
     @Override
     public void runOpMode() {
@@ -48,6 +51,10 @@ public class RedBackstage extends LinearOpMode {
             @Override
             public void onOpened() {
                 webcam.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+                leftFlipper = hardwareMap.get(Servo.class, "LeftC");
+                rightFlipper = hardwareMap.get(Servo.class,"RightC");
+                rightFlipper.setPosition(0);
+                leftFlipper.setPosition(0);
             }
 
             @Override
