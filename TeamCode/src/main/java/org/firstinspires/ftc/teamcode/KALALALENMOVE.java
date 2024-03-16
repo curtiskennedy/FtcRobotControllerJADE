@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class KALALALENMOVE extends OpMode {
     //Motors
     RevBlinkinLedDriver lights;
-    private double MAXARMPOWER = 0.5;
+    private double MAXARMPOWER = 0.65;
     private double MAXSLIDEPOWER = 0.4;
 
     private double FLIPPERPOWER = 0.01;
@@ -26,7 +26,7 @@ public class KALALALENMOVE extends OpMode {
     float flipYorNL = 0;
     public boolean down;
     public boolean override;
-    float flipYorNR = 0;
+    float flipYorNR = 1;
 
 
     private DcMotor leftFrontDrive, rightFrontDrive, leftBackDrive, rightBackDrive, Arm, Slides = null;
@@ -65,6 +65,7 @@ public class KALALALENMOVE extends OpMode {
         Slides = hardwareMap.get(DcMotor.class, "SE");
 
         lancher = hardwareMap.get(Servo.class, "PEW");
+        lancher.setPosition(0.8);
 
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
@@ -98,17 +99,17 @@ public class KALALALENMOVE extends OpMode {
 
         Arm.setDirection(DcMotorSimple.Direction.REVERSE);
         Slides.setDirection(DcMotorSimple.Direction.FORWARD);
-        flipYorNR = 1;
+        flipYorNR = 0;
         flipYorNL = 1;
-        rightFlipper.setPosition(-1f);
-        leftFlipper.setPosition(0.8f);
+
     }
 
 
     @Override
     //Start function
     public void start() {
-
+        rightFlipper.setPosition(-1f);
+        leftFlipper.setPosition(0.8f);
         //reset
         telemetry.clearAll();
 
@@ -117,11 +118,11 @@ public class KALALALENMOVE extends OpMode {
 
     @Override
     public void loop() {
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+
         ElapsedTime loopTimer = new ElapsedTime();
         long targetLoopTime = 16; // 1000 milliseconds / 60 fps = 16.6667 ms
 
-        while (loopTimer.milliseconds() < targetLoopTime) {
+        //while (loopTimer.milliseconds() < targetLoopTime) {
 
 
 
@@ -148,20 +149,20 @@ public class KALALALENMOVE extends OpMode {
 
 
 
-            if (gamepad1.left_stick_button && !spin) {
-                spinsec = runtime.seconds();
-                spin = true;
-
-            }
-            if (runtime.seconds() - spinsec > 0.8 && spin) {
-                spin = false;
-            }
-            if (spin){
-                speeds [0] = -1;
-                speeds [1]  = -1;
-                speeds [2] = 1;
-                speeds [3] = 1;
-            }
+//            if (gamepad1.left_stick_button && !spin) {
+//                spinsec = runtime.seconds();
+//                spin = true;
+//
+//            }
+//            if (runtime.seconds() - spinsec > 0.8 && spin) {
+//                spin = false;
+//            }
+//            if (spin){
+//                speeds [0] = 1;
+//                speeds [1]  = -1;
+//                speeds [2] = 1;
+//                speeds [3] = -1;
+//            }
 
             // arm
             armPower = gamepad2.dpad_up ? MAXARMPOWER : gamepad2.dpad_down ? -MAXARMPOWER : 0;
@@ -291,14 +292,14 @@ public class KALALALENMOVE extends OpMode {
 
             if(gamepad1.share)
             {
-                lancher.setPosition(1);
+                lancher.setPosition(0.8);
             }
 
             if(gamepad1.left_bumper)
             {
 
 
-                lancher.setPosition(0);
+                lancher.setPosition(0.5);
 
             }
 
@@ -307,15 +308,15 @@ public class KALALALENMOVE extends OpMode {
             Slides.setPower(slidesPower);
 //            rightFlipper.setPosition(rightFlipperPOS);
 //            leftFlipper.setPosition(leftFlipperPOS);
+
         }
 
 
 //
-        telemetry.addData("Right: ", rightFlipper.getPosition());
-        telemetry.addData("Left: ", leftFlipper.getPosition());
+
 //        telemetry.addData("Extend Encoder Ticks", Slides.getCurrentPosition());
 
-    }
+    //}
     @Override
     public void stop() {
 
