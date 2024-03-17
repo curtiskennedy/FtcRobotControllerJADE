@@ -64,6 +64,7 @@ public class BlueBackstage extends LinearOpMode {
                 .back(8)
                 .turn(Math.toRadians(95))
                 .forward(26)
+                .strafeRight(2)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -98,7 +99,7 @@ public class BlueBackstage extends LinearOpMode {
                 })
 
                 .waitSeconds(1)
-                .strafeLeft(15)
+                .strafeLeft(18)
                 .forward(15)
                 .build();
 
@@ -183,7 +184,7 @@ public class BlueBackstage extends LinearOpMode {
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
-                .strafeLeft(30)
+                .strafeLeft(33)
                 .forward(15)
                 .build();
 

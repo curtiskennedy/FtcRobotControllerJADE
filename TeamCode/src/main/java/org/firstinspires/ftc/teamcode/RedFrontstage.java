@@ -75,9 +75,10 @@ public class RedFrontstage extends LinearOpMode {
                 .back(14.142135623730950488016887242097)
                 .turn(Math.toRadians(-47))
                 .strafeRight(14)
-                .forward(80)
+                .waitSeconds(5)
+                .forward(60)
                 .strafeLeft(16)
-                .forward(10.5)
+                .forward(30.5)
                 .addTemporalMarker(() -> {
                     Arm.setTargetPosition(800);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -128,7 +129,7 @@ public class RedFrontstage extends LinearOpMode {
 
 
                 })
-                .waitSeconds(3)
+                .waitSeconds(8)
                 .addTemporalMarker(() -> {
 
                     lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);

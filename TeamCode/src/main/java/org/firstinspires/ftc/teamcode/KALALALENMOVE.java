@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class KALALALENMOVE extends OpMode {
     //Motors
     RevBlinkinLedDriver lights;
-    private double MAXARMPOWER = 0.65;
+    private double MAXARMPOWER = 0.5;
     private double MAXSLIDEPOWER = 0.4;
 
     private double FLIPPERPOWER = 0.01;

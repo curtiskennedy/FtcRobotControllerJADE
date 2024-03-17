@@ -80,9 +80,9 @@ public class RedBackstage extends LinearOpMode {
                 .turn(Math.toRadians(-140))
                 .forward(34)
                 .strafeLeft(16)
-                .forward(3.5)
+                .forward(2)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(400);
+                    Arm.setTargetPosition(700);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
@@ -94,7 +94,7 @@ public class RedBackstage extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(350);
+                    Arm.setTargetPosition(590);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
@@ -114,7 +114,7 @@ public class RedBackstage extends LinearOpMode {
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
-                .strafeRight(28.937638637376f)
+                .strafeRight(30.937638637376f)
                 .forward(8.98765434567)
                 .build();
 
@@ -164,23 +164,23 @@ public class RedBackstage extends LinearOpMode {
 //test
         TrajectorySequence Right = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToLinearHeading(new Pose2d(26, -14, Math.toRadians(0)))
-                .back(8)
+                .back(9)
                 .turn(Math.toRadians(-95))
-                .forward(27)
+                .forward(25)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(700);
+                    Arm.setTargetPosition(900);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    Extend.setTargetPosition(1094);
+                    Extend.setTargetPosition(1300);
                     Extend.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Extend.setPower(SlidePower);
                 })
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                    Arm.setTargetPosition(400);
+                    Arm.setTargetPosition(590);
                     Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     Arm.setPower(ArmPower);
                 })
@@ -201,7 +201,7 @@ public class RedBackstage extends LinearOpMode {
                 })
 
                 .waitSeconds(1)
-                .strafeRight(15)
+                .strafeRight(16)
                 .forward(15)
                 .build();
 
